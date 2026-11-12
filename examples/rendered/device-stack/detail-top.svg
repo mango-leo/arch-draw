@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1309" height="507" viewBox="0 0 1309 507" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">led_top</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="1309" height="507" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Block detail</text>
+  <text x="32" y="85" font-size="27" class="title">led_top</text>
+  <text x="32" y="351" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="379" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs join ends when no line is</text>
+  <text x="32" y="398" font-size="12" class="muted">drawn.</text>
+  <g id="wires">
+    <g data-wire="W01" data-direction="forward">
+      <title>W01  set_led → led_top.u_reg | MMIO write · 0x40000000 · confirmed
+driver.c:3
+led_top.sv:4</title>
+      <polyline points="428,284 445,284 445,261 532,261" class="wire confirmed" />
+      <polygon points="532,261 523,257 523,265" class="arrow confirmed" />
+    </g>
+    <g data-wire="W03" data-direction="forward">
+      <title>W03  led_top.u_reg → led_top · LED_OUT | RTL signal · led_state · confirmed
+led_top.sv:6</title>
+      <polyline points="852,261 869,261 869,284 956,284" class="wire confirmed" />
+      <polygon points="956,284 947,280 947,288" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="driver" data-role="external">
+      <title>set_led
+driver.c:4</title>
+      <rect x="108" y="186" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="211" font-size="16" class="node-title">set_led</text>
+      <text x="122" y="234" font-size="12" class="muted">External · firmware ·</text>
+      <text x="122" y="257" font-size="12" class="muted">confirmed</text>
+      <text x="273" y="288" font-size="12" class="port">W01 · 0x40000…</text>
+      <circle cx="428" cy="284" r="2" class="anchor" />
+    </g>
+    <g data-block="reg" data-role="block">
+      <title>led_top.u_reg
+led_top.sv:4</title>
+      <rect x="532" y="186" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="546" y="211" font-size="16" class="node-title">led_top.u_reg</text>
+      <text x="546" y="234" font-size="12" class="muted">RTL instance · confirmed</text>
+      <text x="546" y="265" font-size="12" class="port">W01 · 0x40000…</text>
+      <text x="697" y="265" font-size="12" class="port">W03 · led_sta…</text>
+      <circle cx="532" cy="261" r="2" class="anchor" />
+      <circle cx="852" cy="261" r="2" class="anchor" />
+    </g>
+    <g data-block="top" data-role="boundary">
+      <title>led_top
+led_top.sv:1
+LED_OUT (out)</title>
+      <rect x="956" y="186" width="320" height="119" rx="9" class="block boundary confirmed" />
+      <text x="970" y="211" font-size="16" class="node-title">led_top</text>
+      <text x="970" y="234" font-size="12" class="muted">Scope port · RTL top ·</text>
+      <text x="970" y="257" font-size="12" class="muted">confirmed</text>
+      <text x="970" y="288" font-size="12" class="port">W03 · LED_OUT</text>
+      <circle cx="956" cy="284" r="2" class="anchor" />
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="mmio" data-wire="W01" data-style="line">
+      <title>W01  set_led → led_top.u_reg | MMIO write · 0x40000000 · confirmed
+driver.c:3
+led_top.sv:4</title>
+      <text x="32" y="425" font-size="13" class="">W01 set_led → led_top.u_reg | MMIO write · 0x40000000 · confirmed</text>
+    </g>
+    <g data-connection="state" data-wire="W03" data-style="line">
+      <title>W03  led_top.u_reg → led_top · LED_OUT | RTL signal · led_state · confirmed
+led_top.sv:6</title>
+      <text x="32" y="450" font-size="13" class="">W03 led_top.u_reg → led_top · LED_OUT | RTL signal · led_state · confirmed</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "title": "Order processing",
+  "blocks": [
+    {"id":"api","label":"Order API","kind":"Service","status":"designed","evidence":[{"path":"design.md","line":3},{"path":"design.md","line":5}]},
+    {"id":"db","label":"Orders DB","kind":"Storage","status":"designed","evidence":[{"path":"design.md","line":3}]},
+    {"id":"queue","label":"Event Queue","kind":"Messaging","status":"designed","evidence":[{"path":"design.md","line":5}]}
+  ],
+  "connections": [
+    {"id":"01-write","source":{"block":"api"},"target":{"block":"db"},"direction":"forward","kind":"Storage write","label":"Save order","status":"designed","evidence":[{"path":"design.md","line":3}]},
+    {"id":"02-publish","source":{"block":"api"},"target":{"block":"queue"},"direction":"forward","kind":"Event publish","label":"OrderPlaced","status":"designed","evidence":[{"path":"design.md","line":5}]}
+  ]
+}

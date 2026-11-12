@@ -1,0 +1,11 @@
+{
+  "title": "Orders deployment",
+  "notes": ["Declared Kubernetes configuration"],
+  "blocks": [
+    {"id":"service","label":"orders","kind":"Kubernetes Service","status":"confirmed","evidence":[{"path":"deployment.yaml","line":2}]},
+    {"id":"workload","label":"orders","kind":"Kubernetes Deployment","status":"confirmed","evidence":[{"path":"deployment.yaml","line":12}]}
+  ],
+  "connections": [
+    {"id":"target","source":{"block":"service"},"target":{"block":"workload"},"kind":"service selector","label":"app: orders, 80 → 8080","direction":"forward","status":"confirmed","evidence":[{"path":"deployment.yaml","line":6},{"path":"deployment.yaml","line":19}]}
+  ]
+}

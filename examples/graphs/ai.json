@@ -1,0 +1,12 @@
+{
+  "title": "Retrieval and answer generation",
+  "blocks": [
+    {"id":"chain","label":"build_answer_chain","kind":"orchestrator","status":"confirmed","evidence":[{"path":"retrieval.py","line":4}]},
+    {"id":"retriever","label":"retriever","kind":"retrieval","status":"confirmed","evidence":[{"path":"retrieval.py","line":6}]},
+    {"id":"model","label":"model","kind":"generation","status":"confirmed","evidence":[{"path":"retrieval.py","line":7}]}
+  ],
+  "connections": [
+    {"id":"ask","source":{"block":"chain"},"target":{"block":"retriever"},"kind":"retrieval call","label":"question","direction":"forward","status":"confirmed","evidence":[{"path":"retrieval.py","line":6}]},
+    {"id":"context","source":{"block":"retriever"},"target":{"block":"model"},"kind":"context flow","label":"documents plus question","direction":"forward","status":"confirmed","evidence":[{"path":"retrieval.py","line":6},{"path":"retrieval.py","line":7}]}
+  ]
+}

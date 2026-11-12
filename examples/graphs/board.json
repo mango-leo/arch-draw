@@ -1,0 +1,10 @@
+{
+  "title": "Board LED connection",
+  "blocks": [
+    {"id":"u1","label":"U1 · FPGA","kind":"IC","status":"confirmed","evidence":[{"path":"controller.net","line":4}]},
+    {"id":"j1","label":"J1 · LED connector","kind":"connector","status":"confirmed","evidence":[{"path":"controller.net","line":5}]}
+  ],
+  "connections": [
+    {"id":"led","source":{"block":"u1"},"target":{"block":"j1"},"kind":"net","label":"LED_OUT","direction":"none","status":"confirmed","evidence":[{"path":"controller.net","line":8}]}
+  ]
+}

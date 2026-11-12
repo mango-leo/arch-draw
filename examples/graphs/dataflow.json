@@ -1,0 +1,13 @@
+{
+  "title": "Orders data model and workflow",
+  "blocks": [
+    {"id":"orders","label":"orders","kind":"table","status":"confirmed","evidence":[{"path":"schema.sql","line":2}]},
+    {"id":"accounts","label":"accounts","kind":"table","status":"confirmed","evidence":[{"path":"schema.sql","line":1}]},
+    {"id":"extract","label":"extract","kind":"Airflow task","status":"confirmed","evidence":[{"path":"workflow.py","line":5}]},
+    {"id":"publish","label":"publish","kind":"Airflow task","status":"confirmed","evidence":[{"path":"workflow.py","line":6}]}
+  ],
+  "connections": [
+    {"id":"fk","source":{"block":"orders"},"target":{"block":"accounts"},"kind":"foreign key","label":"account_id","direction":"forward","status":"confirmed","evidence":[{"path":"schema.sql","line":3}]},
+    {"id":"tasks","source":{"block":"extract"},"target":{"block":"publish"},"kind":"task dependency","label":"extract before publish","direction":"forward","status":"confirmed","evidence":[{"path":"workflow.py","line":7}]}
+  ]
+}

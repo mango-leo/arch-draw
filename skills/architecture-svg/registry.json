@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "domains": {
+    "software": {"skill": "architecture-software", "evidence": "Implementation, entry point, or diff"},
+    "rtl": {"skill": "architecture-rtl", "evidence": "Verilog or SystemVerilog design unit, UVM testbench, or build settings"},
+    "board": {"skill": "architecture-board", "evidence": "KiCad schematic or exported netlist"},
+    "infra": {"skill": "architecture-infra", "evidence": "Compose, Kubernetes, or Terraform configuration"},
+    "interfaces": {"skill": "architecture-interfaces", "evidence": "OpenAPI, AsyncAPI, or Protobuf service contract"},
+    "dataflow": {"skill": "architecture-dataflow", "evidence": "SQL DDL, dbt manifest, or Airflow DAG"},
+    "ai": {"skill": "architecture-ai", "evidence": "Model, training, inference, retrieval, or agent workflow"},
+    "system-design": {"skill": "architecture-system-design", "evidence": "Design document, requirements, ADR, or notes with explicit relationships"}
+  }
+}

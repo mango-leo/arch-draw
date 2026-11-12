@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <components>
+    <comp ref="U1"><value>FPGA</value></comp>
+    <comp ref="J1"><value>LED connector</value></comp>
+  </components>
+  <nets>
+    <net code="1" name="LED_OUT">
+      <node ref="U1" pin="A1" pinfunction="LED_OUT"/>
+      <node ref="J1" pin="1"/>
+    </net>
+  </nets>
+</export>

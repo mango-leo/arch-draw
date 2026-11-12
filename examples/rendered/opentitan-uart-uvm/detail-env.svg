@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1750" height="966" viewBox="0 0 1750 966" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">uart_env</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="1750" height="966" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Block detail</text>
+  <text x="32" y="85" font-size="27" class="title">uart_env</text>
+  <text x="32" y="125" font-size="14" class="muted">Static source view of the uart_smoke configuration.</text>
+  <text x="32" y="151" font-size="14" class="muted">UART monitor analysis bindings require cfg.en_scb. Sequencer and</text>
+  <text x="32" y="172" font-size="14" class="muted">driver paths show active-agent behavior.</text>
+  <text x="32" y="660" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="688" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs join ends when no line is</text>
+  <text x="32" y="707" font-size="12" class="muted">drawn.</text>
+  <g id="wires">
+    <g data-wire="W01" data-direction="forward">
+      <title>W01  TileLink agent → uart_scoreboard | UVM analysis ports · A/D items to scoreboard FIFOs · confirmed
+hw/dv/sv/cip_lib/cip_base_env.sv:156
+hw/dv/sv/cip_lib/cip_base_env.sv:157</title>
+      <polyline points="1276,357 1293,357 1293,334 1380,334" class="wire confirmed" />
+      <polygon points="1380,334 1371,330 1371,338" class="arrow confirmed" />
+    </g>
+    <g data-wire="W03" data-direction="forward">
+      <title>W03  uart_virtual_sequencer → uart_sequencer | Sequencer handle · uart_sequencer_h (active) · confirmed
+hw/ip/uart/dv/env/uart_env.sv:29
+hw/ip/uart/dv/env/uart_env.sv:30
+hw/ip/uart/dv/env/seq_lib/uart_base_vseq.sv:197</title>
+      <polyline points="852,357 869,357 869,555 956,555" class="wire confirmed" />
+      <polygon points="956,555 947,551 947,559" class="arrow confirmed" />
+    </g>
+    <g data-wire="W04" data-direction="forward">
+      <title>W04  uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/dv/sv/dv_lib/dv_base_test.sv:128
+hw/dv/sv/dv_lib/dv_base_test.sv:147</title>
+      <polyline points="428,357 532,357" class="wire confirmed" />
+      <polygon points="532,357 523,353 523,361" class="arrow confirmed" />
+    </g>
+    <g data-wire="W06" data-direction="forward">
+      <title>W06  uart_monitor → uart_scoreboard | UVM analysis ports · TX/RX items to uart_tx_fifo / uart_rx_fifo · confirmed
+hw/ip/uart/dv/env/uart_env.sv:25
+hw/ip/uart/dv/env/uart_env.sv:26
+hw/ip/uart/dv/env/uart_env.sv:27
+hw/ip/uart/dv/env/uart_scoreboard.sv:47
+hw/ip/uart/dv/env/uart_scoreboard.sv:48</title>
+      <polyline points="1276,555 1328,555 1328,357 1380,357" class="wire confirmed" />
+      <polygon points="1380,357 1371,353 1371,361" class="arrow confirmed" />
+    </g>
+    <g data-wire="W11" data-direction="forward">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <polyline points="1700,555 1717,555 1717,614 939,614 939,578 956,578" class="wire confirmed" />
+      <polygon points="956,578 947,574 947,582" class="arrow confirmed" />
+    </g>
+    <g data-wire="W12" data-direction="forward">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <polyline points="1276,578 1363,578 1363,555 1380,555" class="wire confirmed" />
+      <polygon points="1380,555 1371,551 1371,559" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="smoke" data-role="external">
+      <title>uart_smoke_vseq
+hw/ip/uart/dv/uart_sim_cfg.hjson:56
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/ip/uart/dv/env/seq_lib/uart_smoke_vseq.sv:7</title>
+      <rect x="108" y="259" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="284" font-size="16" class="node-title">uart_smoke_vseq</text>
+      <text x="122" y="307" font-size="12" class="muted">External · Configured</text>
+      <text x="122" y="330" font-size="12" class="muted">stimulus · confirmed</text>
+      <text x="273" y="361" font-size="12" class="port">W04 · Start c…</text>
+      <circle cx="428" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="tl-if" data-role="external">
+      <title>tl_if
+hw/ip/uart/dv/tb/tb.sv:33</title>
+      <rect x="108" y="457" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="482" font-size="16" class="node-title">tl_if</text>
+      <text x="122" y="505" font-size="12" class="muted">External · TileLink interface</text>
+      <text x="122" y="528" font-size="12" class="muted">· confirmed</text>
+      <text x="122" y="559" font-size="12" class="port">W07 · vif via…</text>
+    </g>
+    <g data-block="virtual-sequencer" data-role="block">
+      <title>uart_virtual_sequencer
+hw/ip/uart/dv/env/uart_env.sv:7
+hw/ip/uart/dv/env/uart_virtual_sequencer.sv:5
+hw/dv/sv/dv_lib/dv_base_env.sv:63</title>
+      <rect x="532" y="259" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="546" y="284" font-size="16" class="node-title">uart_virtual_sequence</text>
+      <text x="546" y="307" font-size="16" class="node-title">r</text>
+      <text x="546" y="330" font-size="12" class="muted">Virtual sequencer · confirmed</text>
+      <text x="546" y="361" font-size="12" class="port">W04 · Start c…</text>
+      <text x="697" y="361" font-size="12" class="port">W03 · uart_se…</text>
+      <text x="697" y="384" font-size="12" class="port">W08 · tl_sequ…</text>
+      <circle cx="532" cy="357" r="2" class="anchor" />
+      <circle cx="852" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="tl-agent" data-role="block">
+      <title>TileLink agent
+hw/dv/sv/cip_lib/cip_base_env.sv:74
+hw/dv/sv/tl_agent/tl_agent.sv:8</title>
+      <rect x="956" y="259" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="970" y="284" font-size="16" class="node-title">TileLink agent</text>
+      <text x="970" y="307" font-size="12" class="muted">Inherited CIP agent ·</text>
+      <text x="970" y="330" font-size="12" class="muted">confirmed</text>
+      <text x="970" y="361" font-size="12" class="port">W08 · tl_sequ…</text>
+      <text x="1121" y="361" font-size="12" class="port">W01 · A/D ite…</text>
+      <text x="1121" y="384" font-size="12" class="port">W07 · vif via…</text>
+      <circle cx="1276" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="uart-agent" data-role="block">
+      <title>m_uart_agent
+hw/ip/uart/dv/env/uart_env.sv:18
+hw/dv/sv/uart_agent/uart_agent.sv:5</title>
+      <rect x="956" y="457" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="970" y="505" font-size="12" class="muted">UART agent · confirmed ·</text>
+      <text x="970" y="528" font-size="12" class="muted">detail</text>
+      <text x="970" y="559" font-size="12" class="port">W03 · uart_se…</text>
+      <text x="970" y="582" font-size="12" class="port">W11 · Sample …</text>
+      <text x="1121" y="559" font-size="12" class="port">W06 · TX/RX i…</text>
+      <text x="1121" y="582" font-size="12" class="port">W12 · uart_rx</text>
+      <circle cx="956" cy="555" r="2" class="anchor" />
+      <circle cx="956" cy="578" r="2" class="anchor" />
+      <circle cx="1276" cy="555" r="2" class="anchor" />
+      <circle cx="1276" cy="578" r="2" class="anchor" />
+      <a href="detail-uart-agent.svg">
+        <text x="970" y="482" font-size="16" class="node-title">m_uart_agent</text>
+      </a>
+    </g>
+    <g data-block="scoreboard" data-role="block">
+      <title>uart_scoreboard
+hw/ip/uart/dv/env/uart_env.sv:8
+hw/dv/sv/dv_lib/dv_base_env.sv:69
+hw/ip/uart/dv/env/uart_scoreboard.sv:30
+hw/ip/uart/dv/env/uart_scoreboard.sv:31</title>
+      <rect x="1380" y="259" width="320" height="119" rx="9" class="block block confirmed" />
+      <text x="1394" y="284" font-size="16" class="node-title">uart_scoreboard</text>
+      <text x="1394" y="307" font-size="12" class="muted">Scoreboard · confirmed</text>
+      <text x="1394" y="338" font-size="12" class="port">W01 · A/D ite…</text>
+      <text x="1394" y="361" font-size="12" class="port">W06 · TX/RX i…</text>
+      <circle cx="1380" cy="334" r="2" class="anchor" />
+      <circle cx="1380" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="uart-if" data-role="external">
+      <title>uart_if
+hw/ip/uart/dv/tb/tb.sv:34</title>
+      <rect x="1380" y="457" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="1394" y="482" font-size="16" class="node-title">uart_if</text>
+      <text x="1394" y="505" font-size="12" class="muted">External · Serial interface ·</text>
+      <text x="1394" y="528" font-size="12" class="muted">confirmed</text>
+      <text x="1394" y="559" font-size="12" class="port">W12 · uart_rx</text>
+      <text x="1545" y="559" font-size="12" class="port">W11 · Sample …</text>
+      <circle cx="1380" cy="555" r="2" class="anchor" />
+      <circle cx="1700" cy="555" r="2" class="anchor" />
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="01-tilelink-fifos" data-wire="W01" data-style="line">
+      <title>W01  TileLink agent → uart_scoreboard | UVM analysis ports · A/D items to scoreboard FIFOs · confirmed
+hw/dv/sv/cip_lib/cip_base_env.sv:156
+hw/dv/sv/cip_lib/cip_base_env.sv:157</title>
+      <text x="32" y="734" font-size="13" class="">W01 TileLink agent → uart_scoreboard | UVM analysis ports · A/D items to scoreboard FIFOs · confirmed</text>
+    </g>
+    <g data-connection="03-uart-sequencer" data-wire="W03" data-style="line">
+      <title>W03  uart_virtual_sequencer → uart_sequencer | Sequencer handle · uart_sequencer_h (active) · confirmed
+hw/ip/uart/dv/env/uart_env.sv:29
+hw/ip/uart/dv/env/uart_env.sv:30
+hw/ip/uart/dv/env/seq_lib/uart_base_vseq.sv:197</title>
+      <text x="32" y="759" font-size="13" class="">W03 uart_virtual_sequencer → uart_sequencer | Sequencer handle · uart_sequencer_h (active) · confirmed</text>
+    </g>
+    <g data-connection="04-start" data-wire="W04" data-style="line">
+      <title>W04  uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/dv/sv/dv_lib/dv_base_test.sv:128
+hw/dv/sv/dv_lib/dv_base_test.sv:147</title>
+      <text x="32" y="784" font-size="13" class="">W04 uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed</text>
+    </g>
+    <g data-connection="06-uart-fifos" data-wire="W06" data-style="line">
+      <title>W06  uart_monitor → uart_scoreboard | UVM analysis ports · TX/RX items to uart_tx_fifo / uart_rx_fifo · confirmed
+hw/ip/uart/dv/env/uart_env.sv:25
+hw/ip/uart/dv/env/uart_env.sv:26
+hw/ip/uart/dv/env/uart_env.sv:27
+hw/ip/uart/dv/env/uart_scoreboard.sv:47
+hw/ip/uart/dv/env/uart_scoreboard.sv:48</title>
+      <text x="32" y="809" font-size="13" class="">W06 uart_monitor → uart_scoreboard | UVM analysis ports · TX/RX items to uart_tx_fifo / uart_rx_fifo · confirmed</text>
+    </g>
+    <g data-connection="07-tilelink-vif" data-wire="W07" data-style="paired-ports">
+      <title>W07  TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed
+hw/ip/uart/dv/tb/tb.sv:94
+hw/dv/sv/tl_agent/tl_agent.sv:25</title>
+      <text x="32" y="834" font-size="13" class="fallback">W07 TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed | paired ports</text>
+    </g>
+    <g data-connection="08-tilelink-sequencer" data-wire="W08" data-style="paired-ports">
+      <title>W08  uart_virtual_sequencer → TileLink agent | Sequencer handle · tl_sequencer_hs (active) · confirmed
+hw/dv/sv/cip_lib/cip_base_env.sv:174</title>
+      <text x="32" y="859" font-size="13" class="fallback">W08 uart_virtual_sequencer → TileLink agent | Sequencer handle · tl_sequencer_hs (active) · confirmed | paired ports</text>
+    </g>
+    <g data-connection="11-sample-uart" data-wire="W11" data-style="line">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <text x="32" y="884" font-size="13" class="">W11 uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed</text>
+    </g>
+    <g data-connection="12-drive-rx" data-wire="W12" data-style="line">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <text x="32" y="909" font-size="13" class="">W12 uart_driver → uart_if | Serial RX drive · uart_rx · confirmed</text>
+    </g>
+  </g>
+</svg>

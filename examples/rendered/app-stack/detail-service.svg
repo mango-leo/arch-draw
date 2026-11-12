@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1733" height="558" viewBox="0 0 1733 558" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">Orders application</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="1733" height="558" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Block detail</text>
+  <text x="32" y="85" font-size="27" class="title">Orders application</text>
+  <text x="32" y="125" font-size="14" class="muted">Docker Compose configuration and the current application source</text>
+  <text x="32" y="377" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="405" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs join ends when no line is</text>
+  <text x="32" y="424" font-size="12" class="muted">drawn.</text>
+  <g id="wires">
+    <g data-wire="W01" data-direction="forward">
+      <title>W01  Orders API contract → checkout | contract mapping · POST /orders, 201 · confirmed
+api.yaml:6
+app.py:6
+app.py:9</title>
+      <polyline points="428,310 445,310 445,287 532,287" class="wire confirmed" />
+      <polygon points="532,287 523,283 523,291" class="arrow confirmed" />
+    </g>
+    <g data-wire="W02" data-direction="forward">
+      <title>W02  checkout → save_order | Python call · save_order() · confirmed
+app.py:8</title>
+      <polyline points="852,287 956,287" class="wire confirmed" />
+      <polygon points="956,287 947,283 947,291" class="arrow confirmed" />
+    </g>
+    <g data-wire="W04" data-direction="forward">
+      <title>W04  save_order → orders.db | SQL · INSERT orders · confirmed
+store.py:5</title>
+      <polyline points="1276,287 1380,287" class="wire confirmed" />
+      <polygon points="1380,287 1371,283 1371,291" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="contract" data-role="external">
+      <title>Orders API contract
+api.yaml:3</title>
+      <rect x="108" y="212" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="237" font-size="16" class="node-title">Orders API contract</text>
+      <text x="122" y="260" font-size="12" class="muted">External · OpenAPI ·</text>
+      <text x="122" y="283" font-size="12" class="muted">confirmed</text>
+      <text x="273" y="314" font-size="12" class="port">W01 · POST /o…</text>
+      <circle cx="428" cy="310" r="2" class="anchor" />
+    </g>
+    <g data-block="handler" data-role="block">
+      <title>checkout
+app.py:6</title>
+      <rect x="532" y="212" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="546" y="237" font-size="16" class="node-title">checkout</text>
+      <text x="546" y="260" font-size="12" class="muted">HTTP handler · confirmed</text>
+      <text x="546" y="291" font-size="12" class="port">W01 · POST /o…</text>
+      <text x="697" y="291" font-size="12" class="port">W02 · save_or…</text>
+      <circle cx="532" cy="287" r="2" class="anchor" />
+      <circle cx="852" cy="287" r="2" class="anchor" />
+    </g>
+    <g data-block="store" data-role="block">
+      <title>save_order
+store.py:3</title>
+      <rect x="956" y="212" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="970" y="237" font-size="16" class="node-title">save_order</text>
+      <text x="970" y="260" font-size="12" class="muted">repository · confirmed</text>
+      <text x="970" y="291" font-size="12" class="port">W02 · save_or…</text>
+      <text x="1121" y="291" font-size="12" class="port">W04 · INSERT …</text>
+      <circle cx="956" cy="287" r="2" class="anchor" />
+      <circle cx="1276" cy="287" r="2" class="anchor" />
+    </g>
+    <g data-block="db" data-role="block">
+      <title>orders.db
+store.py:4</title>
+      <rect x="1380" y="212" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="1394" y="237" font-size="16" class="node-title">orders.db</text>
+      <text x="1394" y="260" font-size="12" class="muted">SQLite · confirmed</text>
+      <text x="1394" y="291" font-size="12" class="port">W04 · INSERT …</text>
+      <circle cx="1380" cy="287" r="2" class="anchor" />
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="implements" data-wire="W01" data-style="line">
+      <title>W01  Orders API contract → checkout | contract mapping · POST /orders, 201 · confirmed
+api.yaml:6
+app.py:6
+app.py:9</title>
+      <text x="32" y="451" font-size="13" class="">W01 Orders API contract → checkout | contract mapping · POST /orders, 201 · confirmed</text>
+    </g>
+    <g data-connection="persist" data-wire="W02" data-style="line">
+      <title>W02  checkout → save_order | Python call · save_order() · confirmed
+app.py:8</title>
+      <text x="32" y="476" font-size="13" class="">W02 checkout → save_order | Python call · save_order() · confirmed</text>
+    </g>
+    <g data-connection="write" data-wire="W04" data-style="line">
+      <title>W04  save_order → orders.db | SQL · INSERT orders · confirmed
+store.py:5</title>
+      <text x="32" y="501" font-size="13" class="">W04 save_order → orders.db | SQL · INSERT orders · confirmed</text>
+    </g>
+  </g>
+</svg>

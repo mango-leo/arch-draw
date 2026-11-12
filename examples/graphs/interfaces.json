@@ -1,0 +1,10 @@
+{
+  "title": "Orders API contract",
+  "blocks": [
+    {"id":"client","label":"Consumer (unspecified)","kind":"client","status":"unresolved","evidence":[]},
+    {"id":"api","label":"Orders API","kind":"HTTP API","status":"confirmed","evidence":[{"path":"api.yaml","line":3}]}
+  ],
+  "connections": [
+    {"id":"post","source":{"block":"client"},"target":{"block":"api"},"kind":"HTTP contract","label":"POST /orders → 201","direction":"none","status":"unresolved","evidence":[{"path":"api.yaml","line":6}]}
+  ]
+}

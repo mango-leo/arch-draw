@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1309" height="1228" viewBox="0 0 1309 1228" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">tb</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="1309" height="1228" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Block detail</text>
+  <text x="32" y="85" font-size="27" class="title">tb</text>
+  <text x="32" y="125" font-size="14" class="muted">Static source view of the uart_smoke configuration.</text>
+  <text x="32" y="151" font-size="14" class="muted">UART monitor analysis bindings require cfg.en_scb. Sequencer and</text>
+  <text x="32" y="172" font-size="14" class="muted">driver paths show active-agent behavior.</text>
+  <text x="32" y="972" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="1000" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs join ends when no line is</text>
+  <text x="32" y="1019" font-size="12" class="muted">drawn.</text>
+  <g id="wires">
+    <g data-wire="W02" data-direction="forward">
+      <title>W02  clk_rst_if → uart dut | Clock and reset · clk / rst_n · confirmed
+hw/ip/uart/dv/tb/tb.sv:31
+hw/ip/uart/dv/tb/tb.sv:41
+hw/ip/uart/dv/tb/tb.sv:42</title>
+      <polyline points="428,357 445,357 445,334 532,334" class="wire confirmed" />
+      <polygon points="532,334 523,330 523,338" class="arrow confirmed" />
+    </g>
+    <g data-wire="W07" data-direction="none">
+      <title>W07  TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed
+hw/ip/uart/dv/tb/tb.sv:94
+hw/dv/sv/tl_agent/tl_agent.sv:25</title>
+      <polyline points="428,730 445,730 445,591 91,591 91,555 108,555" class="wire confirmed" />
+    </g>
+    <g data-wire="W09" data-direction="both">
+      <title>W09  tl_if ↔ uart dut | TileLink bus · h2d / d2h · confirmed
+hw/ip/uart/dv/tb/tb.sv:44
+hw/ip/uart/dv/tb/tb.sv:45</title>
+      <polyline points="428,555 480,555 480,357 532,357" class="wire confirmed" />
+      <polygon points="532,357 523,353 523,361" class="arrow confirmed" />
+      <polygon points="428,555 437,551 437,559" class="arrow confirmed" />
+    </g>
+    <g data-wire="W10" data-direction="both">
+      <title>W10  uart_if ↔ uart dut | UART pins · RX into DUT, TX out of DUT · confirmed
+hw/ip/uart/dv/tb/tb.sv:56
+hw/ip/uart/dv/tb/tb.sv:57
+hw/ip/uart/dv/tb/tb.sv:81
+hw/ip/uart/dv/tb/tb.sv:82</title>
+      <polyline points="852,532 869,532 869,416 515,416 515,380 532,380" class="wire confirmed" />
+      <polygon points="532,380 523,376 523,384" class="arrow confirmed" />
+      <polygon points="852,532 861,528 861,536" class="arrow confirmed" />
+    </g>
+    <g data-wire="W11" data-direction="forward">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <polyline points="852,555 904,555 904,357 956,357" class="wire confirmed" />
+      <polygon points="956,357 947,353 947,361" class="arrow confirmed" />
+    </g>
+    <g data-wire="W12" data-direction="forward">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <polyline points="428,905 515,905 515,532 532,532" class="wire confirmed" />
+      <polygon points="532,532 523,528 523,536" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="clock-reset" data-role="block">
+      <title>clk_rst_if
+hw/ip/uart/dv/tb/tb.sv:31
+hw/ip/uart/dv/tb/tb.sv:91</title>
+      <rect x="108" y="259" width="320" height="119" rx="9" class="block block confirmed" />
+      <text x="122" y="284" font-size="16" class="node-title">clk_rst_if</text>
+      <text x="122" y="307" font-size="12" class="muted">Clock and reset interface ·</text>
+      <text x="122" y="330" font-size="12" class="muted">confirmed</text>
+      <text x="273" y="361" font-size="12" class="port">W02 · clk / r…</text>
+      <circle cx="428" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="tl-if" data-role="block">
+      <title>tl_if
+hw/ip/uart/dv/tb/tb.sv:33</title>
+      <rect x="108" y="457" width="320" height="119" rx="9" class="block block confirmed" />
+      <text x="122" y="482" font-size="16" class="node-title">tl_if</text>
+      <text x="122" y="505" font-size="12" class="muted">TileLink interface ·</text>
+      <text x="122" y="528" font-size="12" class="muted">confirmed</text>
+      <text x="122" y="559" font-size="12" class="port">W07 · vif via…</text>
+      <text x="273" y="559" font-size="12" class="port">W09 · h2d / d…</text>
+      <circle cx="108" cy="555" r="2" class="anchor" />
+      <circle cx="428" cy="555" r="2" class="anchor" />
+    </g>
+    <g data-block="tl-agent" data-role="external">
+      <title>TileLink agent
+hw/dv/sv/cip_lib/cip_base_env.sv:74
+hw/dv/sv/tl_agent/tl_agent.sv:8</title>
+      <rect x="108" y="632" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="657" font-size="16" class="node-title">TileLink agent</text>
+      <text x="122" y="680" font-size="12" class="muted">External · Inherited CIP</text>
+      <text x="122" y="703" font-size="12" class="muted">agent · confirmed</text>
+      <text x="273" y="734" font-size="12" class="port">W07 · vif via…</text>
+      <circle cx="428" cy="730" r="2" class="anchor" />
+    </g>
+    <g data-block="uart-driver" data-role="external">
+      <title>uart_driver
+hw/dv/sv/uart_agent/uart_agent.sv:7
+hw/dv/sv/dv_base_agent/dv_base_agent.sv:74
+hw/dv/sv/uart_agent/uart_driver.sv:27</title>
+      <rect x="108" y="807" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="122" y="832" font-size="16" class="node-title">uart_driver</text>
+      <text x="122" y="855" font-size="12" class="muted">External · Serial stimulus</text>
+      <text x="122" y="878" font-size="12" class="muted">driver · confirmed</text>
+      <text x="273" y="909" font-size="12" class="port">W12 · uart_rx</text>
+      <circle cx="428" cy="905" r="2" class="anchor" />
+    </g>
+    <g data-block="dut" data-role="block">
+      <title>uart dut
+hw/ip/uart/dv/tb/tb.sv:40
+hw/ip/uart/rtl/uart.sv:9</title>
+      <rect x="532" y="259" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="546" y="284" font-size="16" class="node-title">uart dut</text>
+      <text x="546" y="307" font-size="12" class="muted">UART DUT · confirmed</text>
+      <text x="546" y="338" font-size="12" class="port">W02 · clk / r…</text>
+      <text x="546" y="361" font-size="12" class="port">W09 · h2d / d…</text>
+      <text x="546" y="384" font-size="12" class="port">W10 · RX into…</text>
+      <circle cx="532" cy="334" r="2" class="anchor" />
+      <circle cx="532" cy="357" r="2" class="anchor" />
+      <circle cx="532" cy="380" r="2" class="anchor" />
+    </g>
+    <g data-block="uart-if" data-role="block">
+      <title>uart_if
+hw/ip/uart/dv/tb/tb.sv:34</title>
+      <rect x="532" y="457" width="320" height="119" rx="9" class="block block confirmed" />
+      <text x="546" y="482" font-size="16" class="node-title">uart_if</text>
+      <text x="546" y="505" font-size="12" class="muted">Serial interface · confirmed</text>
+      <text x="546" y="536" font-size="12" class="port">W12 · uart_rx</text>
+      <text x="697" y="536" font-size="12" class="port">W10 · RX into…</text>
+      <text x="697" y="559" font-size="12" class="port">W11 · Sample …</text>
+      <circle cx="532" cy="532" r="2" class="anchor" />
+      <circle cx="852" cy="532" r="2" class="anchor" />
+      <circle cx="852" cy="555" r="2" class="anchor" />
+    </g>
+    <g data-block="uart-monitor" data-role="external">
+      <title>uart_monitor
+hw/dv/sv/uart_agent/uart_agent.sv:9
+hw/dv/sv/dv_base_agent/dv_base_agent.sv:65
+hw/dv/sv/uart_agent/uart_monitor.sv:78
+hw/dv/sv/uart_agent/uart_monitor.sv:126</title>
+      <rect x="956" y="259" width="320" height="119" rx="9" class="block external confirmed" />
+      <text x="970" y="284" font-size="16" class="node-title">uart_monitor</text>
+      <text x="970" y="307" font-size="12" class="muted">External · Serial monitor ·</text>
+      <text x="970" y="330" font-size="12" class="muted">confirmed</text>
+      <text x="970" y="361" font-size="12" class="port">W11 · Sample …</text>
+      <circle cx="956" cy="357" r="2" class="anchor" />
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="02-clock-reset" data-wire="W02" data-style="line">
+      <title>W02  clk_rst_if → uart dut | Clock and reset · clk / rst_n · confirmed
+hw/ip/uart/dv/tb/tb.sv:31
+hw/ip/uart/dv/tb/tb.sv:41
+hw/ip/uart/dv/tb/tb.sv:42</title>
+      <text x="32" y="1046" font-size="13" class="">W02 clk_rst_if → uart dut | Clock and reset · clk / rst_n · confirmed</text>
+    </g>
+    <g data-connection="07-tilelink-vif" data-wire="W07" data-style="line">
+      <title>W07  TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed
+hw/ip/uart/dv/tb/tb.sv:94
+hw/dv/sv/tl_agent/tl_agent.sv:25</title>
+      <text x="32" y="1071" font-size="13" class="">W07 TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed</text>
+    </g>
+    <g data-connection="09-tilelink-pins" data-wire="W09" data-style="line">
+      <title>W09  tl_if ↔ uart dut | TileLink bus · h2d / d2h · confirmed
+hw/ip/uart/dv/tb/tb.sv:44
+hw/ip/uart/dv/tb/tb.sv:45</title>
+      <text x="32" y="1096" font-size="13" class="">W09 tl_if ↔ uart dut | TileLink bus · h2d / d2h · confirmed</text>
+    </g>
+    <g data-connection="10-uart-pins" data-wire="W10" data-style="line">
+      <title>W10  uart_if ↔ uart dut | UART pins · RX into DUT, TX out of DUT · confirmed
+hw/ip/uart/dv/tb/tb.sv:56
+hw/ip/uart/dv/tb/tb.sv:57
+hw/ip/uart/dv/tb/tb.sv:81
+hw/ip/uart/dv/tb/tb.sv:82</title>
+      <text x="32" y="1121" font-size="13" class="">W10 uart_if ↔ uart dut | UART pins · RX into DUT, TX out of DUT · confirmed</text>
+    </g>
+    <g data-connection="11-sample-uart" data-wire="W11" data-style="line">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <text x="32" y="1146" font-size="13" class="">W11 uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed</text>
+    </g>
+    <g data-connection="12-drive-rx" data-wire="W12" data-style="line">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <text x="32" y="1171" font-size="13" class="">W12 uart_driver → uart_if | Serial RX drive · uart_rx · confirmed</text>
+    </g>
+  </g>
+</svg>

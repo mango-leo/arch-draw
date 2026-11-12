@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1326" height="668" viewBox="0 0 1326 668" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">OpenTitan UART UVM testbench</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="1326" height="668" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Architecture overview</text>
+  <text x="32" y="85" font-size="27" class="title">OpenTitan UART UVM testbench</text>
+  <text x="32" y="125" font-size="14" class="muted">Static source view of the uart_smoke configuration.</text>
+  <text x="32" y="151" font-size="14" class="muted">UART monitor analysis bindings require cfg.en_scb. Sequencer and</text>
+  <text x="32" y="172" font-size="14" class="muted">driver paths show active-agent behavior.</text>
+  <text x="32" y="462" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="490" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs join ends when no line is</text>
+  <text x="32" y="509" font-size="12" class="muted">drawn.</text>
+  <g id="wires">
+    <g data-wire="W04" data-direction="forward">
+      <title>W04  uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/dv/sv/dv_lib/dv_base_test.sv:128
+hw/dv/sv/dv_lib/dv_base_test.sv:147</title>
+      <polyline points="428,357 532,357" class="wire confirmed" />
+      <polygon points="532,357 523,353 523,361" class="arrow confirmed" />
+    </g>
+    <g data-wire="W07" data-direction="none">
+      <title>W07  TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed
+hw/ip/uart/dv/tb/tb.sv:94
+hw/dv/sv/tl_agent/tl_agent.sv:25</title>
+      <polyline points="852,357 956,357" class="wire confirmed" />
+    </g>
+    <g data-wire="W11" data-direction="forward">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <polyline points="1276,357 1293,357 1293,416 515,416 515,380 532,380" class="wire confirmed" />
+      <polygon points="532,380 523,376 523,384" class="arrow confirmed" />
+    </g>
+    <g data-wire="W12" data-direction="forward">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <polyline points="852,380 956,380" class="wire confirmed" />
+      <polygon points="956,380 947,376 947,384" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="smoke" data-role="block">
+      <title>uart_smoke_vseq
+hw/ip/uart/dv/uart_sim_cfg.hjson:56
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/ip/uart/dv/env/seq_lib/uart_smoke_vseq.sv:7</title>
+      <rect x="108" y="259" width="320" height="119" rx="9" class="block block confirmed" />
+      <text x="122" y="284" font-size="16" class="node-title">uart_smoke_vseq</text>
+      <text x="122" y="307" font-size="12" class="muted">Configured stimulus ·</text>
+      <text x="122" y="330" font-size="12" class="muted">confirmed</text>
+      <text x="273" y="361" font-size="12" class="port">W04 · Start c…</text>
+      <circle cx="428" cy="357" r="2" class="anchor" />
+    </g>
+    <g data-block="env" data-role="block">
+      <title>uart_env
+hw/ip/uart/dv/tests/uart_base_test.sv:5
+hw/dv/sv/dv_lib/dv_base_test.sv:40
+hw/ip/uart/dv/env/uart_env.sv:5</title>
+      <rect x="532" y="259" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="546" y="307" font-size="12" class="muted">UVM environment · confirmed ·</text>
+      <text x="546" y="330" font-size="12" class="muted">detail</text>
+      <text x="546" y="361" font-size="12" class="port">W04 · Start c…</text>
+      <text x="546" y="384" font-size="12" class="port">W11 · Sample …</text>
+      <text x="697" y="361" font-size="12" class="port">W07 · vif via…</text>
+      <text x="697" y="384" font-size="12" class="port">W12 · uart_rx</text>
+      <circle cx="532" cy="357" r="2" class="anchor" />
+      <circle cx="532" cy="380" r="2" class="anchor" />
+      <circle cx="852" cy="357" r="2" class="anchor" />
+      <circle cx="852" cy="380" r="2" class="anchor" />
+      <a href="detail-env.svg">
+        <text x="546" y="284" font-size="16" class="node-title">uart_env</text>
+      </a>
+    </g>
+    <g data-block="tb" data-role="block">
+      <title>tb
+hw/ip/uart/dv/tb/tb.sv:5
+hw/ip/uart/dv/tb/tb.sv:98</title>
+      <rect x="956" y="259" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="970" y="307" font-size="12" class="muted">Static testbench · confirmed</text>
+      <text x="970" y="330" font-size="12" class="muted">· detail</text>
+      <text x="970" y="361" font-size="12" class="port">W07 · vif via…</text>
+      <text x="970" y="384" font-size="12" class="port">W12 · uart_rx</text>
+      <text x="1121" y="361" font-size="12" class="port">W11 · Sample …</text>
+      <circle cx="956" cy="357" r="2" class="anchor" />
+      <circle cx="956" cy="380" r="2" class="anchor" />
+      <circle cx="1276" cy="357" r="2" class="anchor" />
+      <a href="detail-tb.svg">
+        <text x="970" y="284" font-size="16" class="node-title">tb</text>
+      </a>
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="04-start" data-wire="W04" data-style="line">
+      <title>W04  uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed
+hw/ip/uart/dv/uart_sim_cfg.hjson:57
+hw/dv/sv/dv_lib/dv_base_test.sv:128
+hw/dv/sv/dv_lib/dv_base_test.sv:147</title>
+      <text x="32" y="536" font-size="13" class="">W04 uart_smoke_vseq → uart_virtual_sequencer | UVM sequence · Start configured sequence · confirmed</text>
+    </g>
+    <g data-connection="07-tilelink-vif" data-wire="W07" data-style="line">
+      <title>W07  TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed
+hw/ip/uart/dv/tb/tb.sv:94
+hw/dv/sv/tl_agent/tl_agent.sv:25</title>
+      <text x="32" y="561" font-size="13" class="">W07 TileLink agent — tl_if | Virtual interface binding · vif via uvm_config_db · confirmed</text>
+    </g>
+    <g data-connection="11-sample-uart" data-wire="W11" data-style="line">
+      <title>W11  uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_monitor.sv:44
+hw/dv/sv/uart_agent/uart_monitor.sv:93</title>
+      <text x="32" y="586" font-size="13" class="">W11 uart_if → uart_monitor | Serial sampling · Sample uart_rx / uart_tx · confirmed</text>
+    </g>
+    <g data-connection="12-drive-rx" data-wire="W12" data-style="line">
+      <title>W12  uart_driver → uart_if | Serial RX drive · uart_rx · confirmed
+hw/ip/uart/dv/tb/tb.sv:95
+hw/dv/sv/uart_agent/uart_agent.sv:21
+hw/dv/sv/uart_agent/uart_driver.sv:23</title>
+      <text x="32" y="611" font-size="13" class="">W12 uart_driver → uart_if | Serial RX drive · uart_rx · confirmed</text>
+    </g>
+  </g>
+</svg>

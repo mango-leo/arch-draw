@@ -1,0 +1,16 @@
+{
+  "title": "Checkout and fulfillment",
+  "blocks": [
+    {"id":"api","label":"checkout","kind":"API handler","status":"confirmed","evidence":[{"path":"src/api.py","line":6}]},
+    {"id":"store","label":"save_order","kind":"repository","status":"confirmed","evidence":[{"path":"src/store.py","line":3}]},
+    {"id":"queue","label":"orders","kind":"event queue","status":"confirmed","evidence":[{"path":"src/api.py","line":4}]},
+    {"id":"worker","label":"worker","kind":"consumer","status":"confirmed","evidence":[{"path":"src/api.py","line":10}]},
+    {"id":"db","label":"orders.db","kind":"SQLite","status":"confirmed","evidence":[{"path":"src/store.py","line":4}]}
+  ],
+  "connections": [
+    {"id":"call","source":{"block":"api"},"target":{"block":"store"},"kind":"Python call","label":"save_order(order)","direction":"forward","status":"confirmed","evidence":[{"path":"src/api.py","line":7}]},
+    {"id":"publish","source":{"block":"api"},"target":{"block":"queue"},"kind":"queue put","label":"order","direction":"forward","status":"confirmed","evidence":[{"path":"src/api.py","line":8}]},
+    {"id":"consume","source":{"block":"queue"},"target":{"block":"worker"},"kind":"queue get","label":"order","direction":"forward","status":"confirmed","evidence":[{"path":"src/api.py","line":11}]},
+    {"id":"sql","source":{"block":"store"},"target":{"block":"db"},"kind":"SQL","label":"INSERT orders","direction":"forward","status":"confirmed","evidence":[{"path":"src/store.py","line":5}]}
+  ]
+}

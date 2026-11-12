@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="428" viewBox="0 0 1180 428" role="img" aria-labelledby="title description">
+  <title id="title">arch-draw turns design notes into an architecture diagram</title>
+  <desc id="description">Design notes on the left say that the Order API saves orders to Orders DB and publishes an OrderPlaced event. On the right, a diagram shows both connections branching from the Order API.</desc>
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1" fill="#DCE3F4"/>
+    </pattern>
+  </defs>
+
+  <rect x="1" y="1" width="1178" height="426" rx="24" fill="#F4F6FC" stroke="#D9E0EF" stroke-width="2"/>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif" fill="#19284A">
+    <text x="40" y="63" font-size="24" font-weight="700">Design notes</text>
+    <text x="442" y="63" font-size="24" font-weight="700">Architecture SVG</text>
+
+    <rect x="40" y="88" width="318" height="300" rx="16" fill="#FFFFFF" stroke="#D9E0EF" stroke-width="1.5"/>
+    <path d="M40 138H358" stroke="#E2E7F2"/>
+    <path d="M62 103H73L79 109V123H62Z M73 103V109H79" fill="none" stroke="#6858B9" stroke-width="1.6" stroke-linejoin="round"/>
+    <text x="91" y="120" fill="#47567C" font-family="Consolas, monospace" font-size="16">design.md</text>
+    <text x="62" y="175" font-size="19" fill="#344366">
+      <tspan x="62">When a checkout is</tspan>
+      <tspan x="62" dy="27">confirmed, the <tspan fill="#4334A5" font-weight="700">Order API</tspan></tspan>
+      <tspan x="62" dy="27">writes the order to <tspan fill="#17644F" font-weight="700">Orders DB.</tspan></tspan>
+    </text>
+    <text x="62" y="282" font-size="19" fill="#344366">
+      <tspan x="62">The API also publishes an</tspan>
+      <tspan x="62" dy="27"><tspan fill="#6244A5" font-weight="700">OrderPlaced</tspan> event to the</tspan>
+      <tspan x="62" dy="27"><tspan fill="#6244A5" font-weight="700">Event Queue.</tspan></tspan>
+    </text>
+
+    <circle cx="400" cy="238" r="22" fill="#E6E8FC"/>
+    <path d="M391 238H409 M403 232L409 238L403 244" fill="none" stroke="#5146B1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="442" y="88" width="698" height="300" rx="16" fill="#FAFBFF" stroke="#D9E0EF" stroke-width="1.5"/>
+    <rect x="443" y="89" width="696" height="298" rx="15" fill="url(#grid)"/>
+
+    <!-- Block bounds and wire routes come from the generated overview.svg alongside this preview. -->
+    <g transform="translate(389.28 -22.24) scale(.84)">
+      <polyline points="428,261 532,261" fill="none" stroke="#247960" stroke-width="2.8" stroke-dasharray="7 4"/>
+      <polygon points="532,261 523,257 523,265" fill="#247960"/>
+      <polyline points="428,284 445,284 445,436 532,436" fill="none" stroke="#7251B0" stroke-width="2.8" stroke-dasharray="7 4" stroke-linejoin="round"/>
+      <polygon points="532,436 523,432 523,440" fill="#7251B0"/>
+
+      <g>
+        <rect x="108" y="186" width="320" height="119" rx="12" fill="#EEF0FF" stroke="#8B8AD7" stroke-width="1.8"/>
+        <text x="130" y="223" fill="#27205E" font-size="25" font-weight="700">Order API</text>
+        <text x="130" y="251" fill="#504B7E" font-size="17">Service</text>
+        <circle cx="428" cy="261" r="3" fill="#247960"/>
+        <circle cx="428" cy="284" r="3" fill="#7251B0"/>
+      </g>
+
+      <g>
+        <rect x="532" y="186" width="320" height="96" rx="12" fill="#EAF8F3" stroke="#7ABBAB" stroke-width="1.8"/>
+        <text x="554" y="224" fill="#164D3D" font-size="25" font-weight="700">Orders DB</text>
+        <text x="554" y="260" fill="#24664F" font-size="17">Save order</text>
+      </g>
+
+      <g>
+        <rect x="532" y="361" width="320" height="96" rx="12" fill="#F2ECFF" stroke="#B49CDB" stroke-width="1.8"/>
+        <text x="554" y="399" fill="#49317C" font-size="25" font-weight="700">Event Queue</text>
+        <text x="554" y="435" fill="#68479F" font-size="17">Publish OrderPlaced</text>
+      </g>
+    </g>
+  </g>
+</svg>

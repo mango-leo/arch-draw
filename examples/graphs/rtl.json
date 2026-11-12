@@ -1,0 +1,14 @@
+{
+  "title": "RTL pipeline",
+  "notes": ["Default WIDTH=16, FANOUT=1. Instances shown for this configuration."],
+  "blocks": [
+    {"id":"top","label":"top","kind":"RTL module","status":"confirmed","evidence":[{"path":"top.sv","line":1}],"ports":[{"id":"in","label":"data_in [15:0]","direction":"in"},{"id":"out","label":"data_out [15:0]","direction":"out"}]},
+    {"id":"first","label":"top.u_first","kind":"pipe instance","status":"confirmed","evidence":[{"path":"top.sv","line":6}],"parent":"top","ports":[{"id":"din","label":"din [15:0]","direction":"in"},{"id":"dout","label":"dout [15:0]","direction":"out"}]},
+    {"id":"second","label":"top.g_output.u_second","kind":"pipe instance","status":"confirmed","evidence":[{"path":"top.sv","line":8}],"parent":"top","ports":[{"id":"din","label":"din [15:0]","direction":"in"},{"id":"dout","label":"dout [15:0]","direction":"out"}]}
+  ],
+  "connections": [
+    {"id":"input","source":{"block":"top","port":"in"},"target":{"block":"first","port":"din"},"kind":"RTL bus","label":"data_in [15:0]","direction":"forward","status":"confirmed","evidence":[{"path":"top.sv","line":6}]},
+    {"id":"stage","source":{"block":"first","port":"dout"},"target":{"block":"second","port":"din"},"kind":"RTL bus","label":"stage [15:0]","direction":"forward","status":"confirmed","evidence":[{"path":"top.sv","line":6},{"path":"top.sv","line":8}]},
+    {"id":"output","source":{"block":"second","port":"dout"},"target":{"block":"top","port":"out"},"kind":"RTL bus","label":"data_out [15:0]","direction":"forward","status":"confirmed","evidence":[{"path":"top.sv","line":8}]}
+  ]
+}

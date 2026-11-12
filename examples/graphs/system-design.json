@@ -1,0 +1,16 @@
+{
+  "title": "Warehouse system design",
+  "blocks": [
+    {"id":"operator","label":"Warehouse operator","kind":"actor","status":"designed","evidence":[{"path":"design.md","line":3}]},
+    {"id":"api","label":"Fulfillment API","kind":"service","status":"designed","evidence":[{"path":"design.md","line":3}]},
+    {"id":"worker","label":"Picking Worker","kind":"worker","status":"designed","evidence":[{"path":"design.md","line":4}]},
+    {"id":"ledger","label":"Stock Ledger","kind":"store","status":"designed","evidence":[{"path":"design.md","line":5}]},
+    {"id":"sim","label":"Proposed Simulator","kind":"simulation","status":"designed","evidence":[{"path":"design.md","line":6}]}
+  ],
+  "connections": [
+    {"id":"pick","source":{"block":"operator"},"target":{"block":"api"},"kind":"request","label":"pick request","direction":"forward","status":"designed","evidence":[{"path":"design.md","line":3}]},
+    {"id":"queue","source":{"block":"api"},"target":{"block":"worker"},"kind":"queue","label":"pick request","direction":"forward","status":"designed","evidence":[{"path":"design.md","line":4}]},
+    {"id":"stock","source":{"block":"worker"},"target":{"block":"ledger"},"kind":"write","label":"inventory update","direction":"forward","status":"designed","evidence":[{"path":"design.md","line":5}]},
+    {"id":"sim","source":{"block":"sim"},"target":{"block":"ledger"},"kind":"read","label":"planned simulation input","direction":"forward","status":"designed","evidence":[{"path":"design.md","line":6}]}
+  ]
+}

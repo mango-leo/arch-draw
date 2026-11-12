@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="885" height="659" viewBox="0 0 885 659" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">Order processing</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="885" height="659" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Architecture overview</text>
+  <text x="32" y="85" font-size="27" class="title">Order processing</text>
+  <text x="32" y="503" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="531" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs</text>
+  <text x="32" y="550" font-size="12" class="muted">join ends when no line is drawn.</text>
+  <g id="wires">
+    <g data-wire="W01" data-direction="forward">
+      <title>W01  Order API → Orders DB | Storage write · Save order · designed
+design.md:3</title>
+      <polyline points="428,261 532,261" class="wire designed" />
+      <polygon points="532,261 523,257 523,265" class="arrow designed" />
+    </g>
+    <g data-wire="W02" data-direction="forward">
+      <title>W02  Order API → Event Queue | Event publish · OrderPlaced · designed
+design.md:5</title>
+      <polyline points="428,284 445,284 445,436 532,436" class="wire designed" />
+      <polygon points="532,436 523,432 523,440" class="arrow designed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="api" data-role="block">
+      <title>Order API
+design.md:3
+design.md:5</title>
+      <rect x="108" y="186" width="320" height="119" rx="9" class="block block designed" />
+      <text x="122" y="211" font-size="16" class="node-title">Order API</text>
+      <text x="122" y="234" font-size="12" class="muted">Service · designed</text>
+      <text x="273" y="265" font-size="12" class="port">W01 · Save or…</text>
+      <text x="273" y="288" font-size="12" class="port">W02 · OrderPl…</text>
+      <circle cx="428" cy="261" r="2" class="anchor" />
+      <circle cx="428" cy="284" r="2" class="anchor" />
+    </g>
+    <g data-block="db" data-role="block">
+      <title>Orders DB
+design.md:3</title>
+      <rect x="532" y="186" width="320" height="96" rx="9" class="block block designed" />
+      <text x="546" y="211" font-size="16" class="node-title">Orders DB</text>
+      <text x="546" y="234" font-size="12" class="muted">Storage · designed</text>
+      <text x="546" y="265" font-size="12" class="port">W01 · Save or…</text>
+      <circle cx="532" cy="261" r="2" class="anchor" />
+    </g>
+    <g data-block="queue" data-role="block">
+      <title>Event Queue
+design.md:5</title>
+      <rect x="532" y="361" width="320" height="96" rx="9" class="block block designed" />
+      <text x="546" y="386" font-size="16" class="node-title">Event Queue</text>
+      <text x="546" y="409" font-size="12" class="muted">Messaging · designed</text>
+      <text x="546" y="440" font-size="12" class="port">W02 · OrderPl…</text>
+      <circle cx="532" cy="436" r="2" class="anchor" />
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="01-write" data-wire="W01" data-style="line">
+      <title>W01  Order API → Orders DB | Storage write · Save order · designed
+design.md:3</title>
+      <text x="32" y="577" font-size="13" class="">W01 Order API → Orders DB | Storage write · Save order · designed</text>
+    </g>
+    <g data-connection="02-publish" data-wire="W02" data-style="line">
+      <title>W02  Order API → Event Queue | Event publish · OrderPlaced · designed
+design.md:5</title>
+      <text x="32" y="602" font-size="13" class="">W02 Order API → Event Queue | Event publish · OrderPlaced · designed</text>
+    </g>
+  </g>
+</svg>

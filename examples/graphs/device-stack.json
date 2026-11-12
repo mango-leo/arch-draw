@@ -1,0 +1,14 @@
+{
+  "title": "LED control from driver to board",
+  "blocks": [
+    {"id":"driver","label":"set_led","kind":"firmware","status":"confirmed","evidence":[{"path":"driver.c","line":4}]},
+    {"id":"top","label":"led_top","kind":"RTL top","status":"confirmed","evidence":[{"path":"led_top.sv","line":1}],"ports":[{"id":"led","label":"LED_OUT","direction":"out"}]},
+    {"id":"reg","label":"led_top.u_reg","kind":"RTL instance","status":"confirmed","evidence":[{"path":"led_top.sv","line":4}],"parent":"top"},
+    {"id":"j1","label":"J1 · LED connector","kind":"board connector","status":"confirmed","evidence":[{"path":"controller.net","line":5}]}
+  ],
+  "connections": [
+    {"id":"mmio","source":{"block":"driver"},"target":{"block":"reg"},"kind":"MMIO write","label":"0x40000000","direction":"forward","status":"confirmed","evidence":[{"path":"driver.c","line":3},{"path":"led_top.sv","line":4}]},
+    {"id":"state","source":{"block":"reg"},"target":{"block":"top","port":"led"},"kind":"RTL signal","label":"led_state","direction":"forward","status":"confirmed","evidence":[{"path":"led_top.sv","line":6}]},
+    {"id":"pin","source":{"block":"top","port":"led"},"target":{"block":"j1"},"kind":"board net","label":"LED_OUT via U1.A1","direction":"forward","status":"confirmed","evidence":[{"path":"pins.xdc","line":1},{"path":"controller.net","line":8}]}
+  ]
+}

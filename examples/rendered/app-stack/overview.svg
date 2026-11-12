@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="885" height="748" viewBox="0 0 885 748" role="img" aria-labelledby="diagram-title">
+  <title id="diagram-title">Orders application and deployment</title>
+  <style>text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
+.title { font-weight: 700; }
+.node-title, .table-heading { font-weight: 700; }
+.muted { fill: #475d71; }
+.port { fill: #284d69; }
+.fallback { fill: #80501d; }
+.canvas { fill: #f3f7fa; }
+.block { fill: #fff; stroke: #31556d; stroke-width: 1.5; }
+.block.external, .block.boundary { fill: #e9f1f6; }
+.block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
+.block.designed { stroke: #745b96; }
+.wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
+.wire.inferred { stroke-dasharray: 5 4; }
+.wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
+.wire.designed { stroke: #745b96; stroke-dasharray: 8 3; }
+.arrow { fill: #305b74; }
+.arrow.designed { fill: #745b96; }
+.anchor { fill: #305b74; }</style>
+  <rect x="0" y="0" width="885" height="748" rx="0" class="canvas" />
+  <text x="32" y="44" font-size="14" class="muted">Architecture overview</text>
+  <text x="32" y="85" font-size="27" class="title">Orders application and deployment</text>
+  <text x="32" y="125" font-size="14" class="muted">Docker Compose configuration and the current application source</text>
+  <text x="32" y="552" font-size="17" class="table-heading">Connections</text>
+  <text x="32" y="580" font-size="12" class="muted">Solid: confirmed · dashed: inferred or designed · dotted: unresolved. Matching IDs</text>
+  <text x="32" y="599" font-size="12" class="muted">join ends when no line is drawn.</text>
+  <g id="wires">
+    <g data-wire="W01" data-direction="forward">
+      <title>W01  Orders API contract → checkout | contract mapping · POST /orders, 201 · confirmed
+api.yaml:6
+app.py:6
+app.py:9</title>
+      <polyline points="428,287 445,287 445,310 532,310" class="wire confirmed" />
+      <polygon points="532,310 523,306 523,314" class="arrow confirmed" />
+    </g>
+    <g data-wire="W03" data-direction="forward">
+      <title>W03  orders container → Orders application | runs application · python app.py · 80 → 8080 · confirmed
+compose.yaml:3
+Dockerfile:4
+app.py:12</title>
+      <polyline points="428,485 445,485 445,333 532,333" class="wire confirmed" />
+      <polygon points="532,333 523,329 523,337" class="arrow confirmed" />
+    </g>
+  </g>
+  <g id="blocks">
+    <g data-block="contract" data-role="block">
+      <title>Orders API contract
+api.yaml:3</title>
+      <rect x="108" y="212" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="122" y="237" font-size="16" class="node-title">Orders API contract</text>
+      <text x="122" y="260" font-size="12" class="muted">OpenAPI · confirmed</text>
+      <text x="273" y="291" font-size="12" class="port">W01 · POST /o…</text>
+      <circle cx="428" cy="287" r="2" class="anchor" />
+    </g>
+    <g data-block="deployment" data-role="block">
+      <title>orders container
+compose.yaml:2</title>
+      <rect x="108" y="410" width="320" height="96" rx="9" class="block block confirmed" />
+      <text x="122" y="435" font-size="16" class="node-title">orders container</text>
+      <text x="122" y="458" font-size="12" class="muted">Compose service · confirmed</text>
+      <text x="273" y="489" font-size="12" class="port">W03 · python …</text>
+      <circle cx="428" cy="485" r="2" class="anchor" />
+    </g>
+    <g data-block="service" data-role="block">
+      <title>Orders application
+app.py:4</title>
+      <rect x="532" y="212" width="320" height="142" rx="9" class="block block confirmed" />
+      <text x="546" y="260" font-size="12" class="muted">Flask service · confirmed ·</text>
+      <text x="546" y="283" font-size="12" class="muted">detail</text>
+      <text x="546" y="314" font-size="12" class="port">W01 · POST /o…</text>
+      <text x="546" y="337" font-size="12" class="port">W03 · python …</text>
+      <circle cx="532" cy="310" r="2" class="anchor" />
+      <circle cx="532" cy="333" r="2" class="anchor" />
+      <a href="detail-service.svg">
+        <text x="546" y="237" font-size="16" class="node-title">Orders application</text>
+      </a>
+    </g>
+  </g>
+  <g id="connections">
+    <g data-connection="implements" data-wire="W01" data-style="line">
+      <title>W01  Orders API contract → checkout | contract mapping · POST /orders, 201 · confirmed
+api.yaml:6
+app.py:6
+app.py:9</title>
+      <text x="32" y="626" font-size="13" class="">W01 Orders API contract → checkout | contract mapping · POST /orders, 201 ·</text>
+      <text x="32" y="646" font-size="13" class="">confirmed</text>
+    </g>
+    <g data-connection="runtime" data-wire="W03" data-style="line">
+      <title>W03  orders container → Orders application | runs application · python app.py · 80 → 8080 · confirmed
+compose.yaml:3
+Dockerfile:4
+app.py:12</title>
+      <text x="32" y="671" font-size="13" class="">W03 orders container → Orders application | runs application · python app.py</text>
+      <text x="32" y="691" font-size="13" class="">· 80 → 8080 · confirmed</text>
+    </g>
+  </g>
+</svg>

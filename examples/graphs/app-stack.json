@@ -1,0 +1,18 @@
+{
+  "title": "Orders application and deployment",
+  "notes": ["Docker Compose configuration and the current application source"],
+  "blocks": [
+    {"id":"contract","label":"Orders API contract","kind":"OpenAPI","status":"confirmed","evidence":[{"path":"api.yaml","line":3}]},
+    {"id":"deployment","label":"orders container","kind":"Compose service","status":"confirmed","evidence":[{"path":"compose.yaml","line":2}]},
+    {"id":"service","label":"Orders application","kind":"Flask service","status":"confirmed","evidence":[{"path":"app.py","line":4}]},
+    {"id":"handler","label":"checkout","kind":"HTTP handler","status":"confirmed","evidence":[{"path":"app.py","line":6}],"parent":"service"},
+    {"id":"store","label":"save_order","kind":"repository","status":"confirmed","evidence":[{"path":"store.py","line":3}],"parent":"service"},
+    {"id":"db","label":"orders.db","kind":"SQLite","status":"confirmed","evidence":[{"path":"store.py","line":4}],"parent":"service"}
+  ],
+  "connections": [
+    {"id":"implements","source":{"block":"contract"},"target":{"block":"handler"},"kind":"contract mapping","label":"POST /orders, 201","direction":"forward","status":"confirmed","evidence":[{"path":"api.yaml","line":6},{"path":"app.py","line":6},{"path":"app.py","line":9}]},
+    {"id":"runtime","source":{"block":"deployment"},"target":{"block":"service"},"kind":"runs application","label":"python app.py · 80 → 8080","direction":"forward","status":"confirmed","evidence":[{"path":"compose.yaml","line":3},{"path":"Dockerfile","line":4},{"path":"app.py","line":12}]},
+    {"id":"persist","source":{"block":"handler"},"target":{"block":"store"},"kind":"Python call","label":"save_order()","direction":"forward","status":"confirmed","evidence":[{"path":"app.py","line":8}]},
+    {"id":"write","source":{"block":"store"},"target":{"block":"db"},"kind":"SQL","label":"INSERT orders","direction":"forward","status":"confirmed","evidence":[{"path":"store.py","line":5}]}
+  ]
+}
