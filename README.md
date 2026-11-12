@@ -1,5 +1,7 @@
 # arch-draw
 
+**English** · [한국어](README.ko.md)
+
 Turn project files and design ideas into clear SVG architecture diagrams.
 
 [![Design notes become an SVG block diagram: Order API saves to Orders DB and publishes to Event Queue.](examples/rendered/readme-demo/preview.svg)](examples/rendered/readme-demo/overview.svg)
