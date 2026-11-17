@@ -1,0 +1,15 @@
+{
+  "title": "Order list rendering",
+  "scope": "Frontend · Orders page",
+  "blocks": [
+    {"id":"response","label":"GET /orders response","kind":"HTTP JSON","status":"confirmed","evidence":[{"path":"app.js","line":5}],"boundary":"input"},
+    {"id":"parse","label":"loadOrders","kind":"JSON decoding","status":"confirmed","evidence":[{"path":"app.js","line":5}]},
+    {"id":"rows","label":"List item rendering","kind":"DOM construction","status":"confirmed","evidence":[{"path":"app.js","line":7}]},
+    {"id":"screen","label":"Rendered order list","kind":"Browser DOM","status":"confirmed","evidence":[{"path":"app.js","line":11}],"boundary":"output"}
+  ],
+  "connections": [
+    {"id":"01-json","source":{"block":"response"},"target":{"block":"parse"},"kind":"HTTP response","label":"Orders JSON","direction":"forward","status":"confirmed","evidence":[{"path":"app.js","line":5}],"primary":true},
+    {"id":"02-orders","source":{"block":"parse"},"target":{"block":"rows"},"kind":"Decoded data","label":"Order IDs","direction":"forward","status":"confirmed","evidence":[{"path":"app.js","line":6}],"primary":true},
+    {"id":"03-list","source":{"block":"rows"},"target":{"block":"screen"},"kind":"DOM update","label":"List items","direction":"forward","status":"confirmed","evidence":[{"path":"app.js","line":11}],"primary":true}
+  ]
+}

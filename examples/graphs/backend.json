@@ -1,0 +1,17 @@
+{
+  "title": "Create an order",
+  "scope": "Backend · Orders API",
+  "blocks": [
+    {"id":"request","label":"POST /orders","kind":"HTTP request","status":"confirmed","evidence":[{"path":"app.py","line":6}],"boundary":"input"},
+    {"id":"checkout","label":"checkout","kind":"Flask handler","status":"confirmed","evidence":[{"path":"app.py","line":7}]},
+    {"id":"store","label":"save_order","kind":"Repository","status":"confirmed","evidence":[{"path":"store.py","line":3}]},
+    {"id":"db","label":"orders.db","kind":"SQLite","status":"confirmed","evidence":[{"path":"store.py","line":4}]},
+    {"id":"response","label":"Order created","kind":"HTTP 201 response","status":"confirmed","evidence":[{"path":"app.py","line":9}],"boundary":"output"}
+  ],
+  "connections": [
+    {"id":"01-request","source":{"block":"request"},"target":{"block":"checkout"},"kind":"Route dispatch","label":"POST /orders","direction":"forward","status":"confirmed","evidence":[{"path":"app.py","line":6}],"primary":true},
+    {"id":"02-response","source":{"block":"checkout"},"target":{"block":"response"},"kind":"HTTP response","label":"201 Created","direction":"forward","status":"confirmed","evidence":[{"path":"app.py","line":9}],"primary":true},
+    {"id":"03-save","source":{"block":"checkout"},"target":{"block":"store"},"kind":"Persistence","label":"Save order","direction":"forward","status":"confirmed","evidence":[{"path":"app.py","line":8}]},
+    {"id":"04-write","source":{"block":"store"},"target":{"block":"db"},"kind":"Database write","label":"INSERT order","direction":"forward","status":"confirmed","evidence":[{"path":"store.py","line":5}]}
+  ]
+}

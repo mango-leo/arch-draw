@@ -79,6 +79,7 @@ def validate_evidence(item, where):
 @dataclass(frozen=True)
 class Graph:
     title: str
+    scope: str
     notes: list
     blocks: dict
     ports: dict
@@ -96,6 +97,7 @@ class Graph:
 def validate(payload):
     object_(payload, "graph")
     title = string(payload.get("title"), "title")
+    scope = string(payload.get("scope", title), "scope")
     notes = [string(note, "note") for note in array(payload.get("notes", []), "notes")]
     blocks = indexed(payload.get("blocks"), "blocks")
     require(blocks, "graph must contain at least one block")
@@ -106,6 +108,8 @@ def validate(payload):
         where = f"block {block_id}"
         for field in ("label", "kind"):
             string(block.get(field), f"{where} {field}")
+        if "boundary" in block:
+            require(block["boundary"] in ("input", "output"), f"{where}: boundary must be input or output")
         validate_evidence(block, where)
         parent = block.get("parent")
         if parent is not None:
@@ -127,6 +131,8 @@ def validate(payload):
             branch.add(cursor)
             cursor = blocks[cursor].get("parent")
         visited.update(branch)
+    for block_id, block in blocks.items():
+        require("boundary" not in block or not children[block_id], f"block {block_id}: a boundary must be a leaf")
     for group in children.values():
         group.sort()
 
@@ -139,6 +145,9 @@ def validate(payload):
         direction = string(connection.get("direction"), f"{where} direction")
         require(direction in {"forward", "both", "none"}, f"{where}: invalid connection direction {direction}")
         require(connection["status"] != "unresolved" or direction == "none", f"{where}: unresolved direction must be none")
+        primary = connection.get("primary", False)
+        require(type(primary) is bool and (not primary or direction == "forward"),
+                f"{where}: primary must be a boolean and requires forward direction when true")
         for end in ("source", "target"):
             endpoint = object_(connection.get(end), f"{where} {end}")
             block = identifier(endpoint.get("block"), f"{where} {end} block")
@@ -146,15 +155,20 @@ def validate(payload):
             if "port" in endpoint:
                 port = identifier(endpoint["port"], f"{where} {end} port")
                 require(port in ports[block], f"{where}: unknown {end} port {block}.{port}")
-    return Graph(title, notes, blocks, ports, children, connections)
+    return Graph(title, scope, notes, blocks, ports, children, connections)
 
 
 @dataclass(frozen=True)
 class View:
     title: str
+    scope: str
     filename: str
     nodes: dict
     edges: list
+
+
+def boundary_role(key, block):
+    return block.get("boundary") if key[0] == "block" else {"scope-input": "input", "scope-output": "output"}.get(key[0])
 
 
 def project(graph):
@@ -173,7 +187,11 @@ def project(graph):
                 if cursor in visible:
                     return ("block", cursor)
                 cursor = graph.blocks[cursor].get("parent")
-            return ("boundary" if original == scope else "external", original)
+            if original == scope:
+                port = graph.ports[original].get(endpoint.get("port"), {})
+                role = {"in": "scope-input", "out": "scope-output"}.get(port.get("direction"), "boundary")
+                return (role, original)
+            return ("external", original)
 
         edges = []
         for edge_id in sorted(graph.connections):
@@ -188,5 +206,8 @@ def project(graph):
                 if endpoint not in nodes:
                     nodes[endpoint] = graph.blocks[endpoint[1]]
             edges.append((order[edge_id], source, target, edge))
-        yield View(graph.title if index == 0 else graph.blocks[scope]["label"],
-                   "overview.svg" if index == 0 else f"detail-{scope}.svg", nodes, edges)
+        if index == 0:
+            yield View(graph.title, graph.scope, "overview.svg", nodes, edges)
+        else:
+            block = graph.blocks[scope]
+            yield View(block["label"], f"{block['kind']} · {block['label']}", f"detail-{scope}.svg", nodes, edges)

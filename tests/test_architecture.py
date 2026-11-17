@@ -85,11 +85,62 @@ class ClassificationTests(unittest.TestCase):
 
 
 class GraphTests(unittest.TestCase):
+    def test_frontend_and_backend_show_scope_and_delivery_at_output_boundary(self):
+        cases = (
+            ("frontend", "Frontend", "Orders page", "Rendered order list", "Browser DOM", 3),
+            ("backend", "Backend", "Orders API", "Order created", "HTTP 201 response", 2),
+        )
+        for name, layer, subject, result, surface, links in cases:
+            with self.subTest(layer=layer):
+                svg = preview(name)["overview.svg"]
+                output = svg.find(".//svg:g[@data-boundary='output']", SVG)
+                labels = " ".join(text.text for text in output.findall("svg:text", SVG))
+                for expected in (layer, subject, result, surface):
+                    self.assertIn(expected, labels)
+                self.assertEqual(len(svg.findall(".//svg:g[@data-primary='true']/svg:polyline", SVG)), links)
+                self.assertFalse(svg.findall(".//svg:g[@data-style='paired-ports']", SVG))
+
+    def test_primary_data_path_runs_from_input_to_output_despite_feedback(self):
+        data = payload("rtl")
+        data["connections"].append({
+            "id": "feedback", "source": {"block": "second"}, "target": {"block": "first"},
+            "kind": "Control", "label": "Backpressure", "direction": "forward", "status": "inferred",
+        })
+        graph = validate(data)
+        document = ET.fromstring(render(graph, next(project(graph)))[0])
+        queries = ["@data-boundary='input'", "@data-block='first'", "@data-block='second'", "@data-boundary='output'"]
+        columns = [int(document.find(f".//svg:g[{query}]/svg:rect", SVG).get("x")) for query in queries]
+        self.assertEqual(columns, sorted(set(columns)))
+        primary = document.findall(".//svg:g[@data-primary='true']/svg:polyline", SVG)
+        self.assertEqual(len(primary), 3)
+        for wire in primary:
+            start, *_, end = wire.get("points").split()
+            self.assertLess(int(start.split(",")[0]), int(end.split(",")[0]))
+
+    def test_explicit_output_boundary_stays_right_of_internal_sinks(self):
+        data = payload("software")
+        data["blocks"].append({
+            "id": "receipt", "label": "Order receipt", "kind": "HTTP response", "boundary": "output", "status": "inferred",
+        })
+        data["connections"].append({
+            "id": "response", "source": {"block": "api"}, "target": {"block": "receipt"},
+            "kind": "HTTP", "label": "Receipt", "direction": "forward", "status": "inferred", "primary": True,
+        })
+        graph = validate(data)
+        svg = ET.fromstring(render(graph, next(project(graph)))[0])
+        boundary = svg.find(".//svg:g[@data-boundary='output']", SVG)
+        edge = svg.find(".//svg:g[@data-connection='response']", SVG)
+        self.assertEqual(boundary.get("data-block"), "receipt")
+        self.assertEqual(edge.get("data-style"), "line")
+        self.assertEqual(len(svg.findall(".//svg:g[@data-boundary]", SVG)), 1)
+        self.assertGreater(int(boundary.find("svg:rect", SVG).get("x")),
+                           int(svg.find(".//svg:g[@data-block='db']/svg:rect", SVG).get("x")))
+
     def test_examples_reference_source_and_render_deterministically(self):
-        for name in [*DOMAINS, "app-stack", "device-stack"]:
+        for name in [*DOMAINS, "app-stack", "device-stack", "frontend", "backend"]:
             with self.subTest(name=name):
                 data = payload(name)
-                location = {"app-stack": "mixed/app", "device-stack": "mixed/device"}.get(name, name)
+                location = {"app-stack": "mixed/app", "backend": "mixed/app", "device-stack": "mixed/device"}.get(name, name)
                 for item in data["blocks"] + data["connections"]:
                     for ref in item["evidence"]:
                         source = (INPUTS / location / ref["path"]).read_text(encoding="utf-8").splitlines()
@@ -138,7 +189,7 @@ class GraphTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown source port"):
             validate(graph)
         graph = payload("rtl")
-        graph["connections"][0]["status"] = "unresolved"
+        graph["connections"][0].update(status="unresolved", primary=False)
         with self.assertRaisesRegex(ValueError, "direction must be none"):
             validate(graph)
 

@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
 
-from graph import evidence_text, project, validate
+from graph import boundary_role, evidence_text, project, validate
 from layout import Box, MARGIN, Text, place, verify, wrap
 
 
@@ -22,6 +22,7 @@ text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
 .block.external, .block.boundary { fill: #e9f1f6; }
 .block.inferred, .block.unresolved { stroke-dasharray: 5 4; }
 .block.designed { stroke: #745b96; }
+.block.io-boundary { fill: #e6f4f3; stroke: #25746f; }
 .wire { fill: none; stroke: #305b74; stroke-width: 1.7; stroke-linejoin: round; }
 .wire.inferred { stroke-dasharray: 5 4; }
 .wire.unresolved { stroke: #80501d; stroke-dasharray: 2 4; }
@@ -29,6 +30,9 @@ text { font-family: 'Cascadia Mono', Consolas, monospace; fill: #142638; }
 .arrow { fill: #305b74; }
 .arrow.designed { fill: #745b96; }
 .anchor { fill: #305b74; }
+.wire.primary { stroke: #08756b; stroke-width: 3.2; }
+.arrow.primary { fill: #08756b; }
+text.primary { fill: #086758; font-weight: 700; }
 """
 
 
@@ -91,13 +95,17 @@ def render(graph, view):
             MARGIN, baseline, 12, "muted", min(width - 2 * MARGIN, 1140), 19,
         )
         outside.extend(rows)
+        if any(edge.get("primary") for _, _, _, edge in view.edges):
+            outside.append(Text(MARGIN, baseline, "Bold labels and thick lines show the primary data path.", 12, "primary"))
+            baseline += 19
         baseline += 8
     table = []
     for wire, _, _, edge in view.edges:
         desc = edge_description(graph, wire, edge)
         if wire not in wires:
             desc += " | paired ports"
-        rows, baseline = text_rows(desc, MARGIN, baseline, 13, "fallback" if wire not in wires else "",
+        css = "primary" if edge.get("primary") else ("fallback" if wire not in wires else "")
+        rows, baseline = text_rows(desc, MARGIN, baseline, 13, css,
                                    min(width - 2 * MARGIN, 1320), 20)
         table.append((wire, rows, edge))
         outside.extend(rows)
@@ -121,20 +129,31 @@ def render(graph, view):
         if wire not in wires:
             continue
         route = wires[wire]
-        group = element(wire_layer, "g", {"data-wire": wire, "data-direction": edge["direction"]})
+        attributes = {"data-wire": wire, "data-direction": edge["direction"]}
+        css = edge["status"]
+        if edge.get("primary"):
+            attributes["data-primary"] = "true"
+            css += " primary"
+        group = element(wire_layer, "g", attributes)
         element(group, "title", value=edge_description(graph, wire, edge) + "\n" + evidence_text(edge))
-        element(group, "polyline", {"points": points_attribute(route.points), "class": f"wire {edge['status']}"})
+        element(group, "polyline", {"points": points_attribute(route.points), "class": f"wire {css}"})
         for head in route.heads:
-            element(group, "polygon", {"points": points_attribute(head), "class": f"arrow {edge['status']}"})
+            element(group, "polygon", {"points": points_attribute(head), "class": f"arrow {css}"})
 
     block_layer = element(svg, "g", {"id": "blocks"})
     for key, node in nodes.items():
         block = view.nodes[key]
-        group = element(block_layer, "g", {"data-block": key[1], "data-role": key[0]})
+        attributes = {"data-block": key[1], "data-role": key[0]}
+        css = f"block {key[0]} {block['status']}"
+        boundary = boundary_role(key, block)
+        if boundary:
+            attributes["data-boundary"] = boundary
+            css += " io-boundary"
+        group = element(block_layer, "g", attributes)
         ports = [f"{port['label']} ({port['direction']})" for port in graph.ports[key[1]].values()]
         tooltip = "\n".join(filter(None, (block["label"], evidence_text(block), *ports)))
         element(group, "title", value=tooltip)
-        rect(group, node.box, f"block {key[0]} {block['status']}", radius=9)
+        rect(group, node.box, css, radius=9)
         for text in node.text:
             text_element(group, text)
         for (wire, side), (x, y) in node.anchors.items():

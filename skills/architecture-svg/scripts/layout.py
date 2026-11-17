@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from itertools import combinations
 import unicodedata
 
+from graph import boundary_role
+
 
 WIDTH = 320
 MARGIN = 32
@@ -167,11 +169,16 @@ def route_problem(route, start, end, nodes, prior):
 def rank_nodes(view):
     outgoing = {key: set() for key in view.nodes}
     incoming = {key: set() for key in view.nodes}
+    inputs = {key for key, block in view.nodes.items() if boundary_role(key, block) == "input"}
+    outputs = {key for key, block in view.nodes.items() if boundary_role(key, block) == "output"}
+    main_nodes = {key for _, source, target, edge in view.edges if edge.get("primary") for key in (source, target)}
     for _, source, target, edge in view.edges:
-        if source != target and edge["direction"] == "forward":
+        if (source != target and edge["direction"] == "forward"
+                and source not in outputs and target not in inputs
+                and (target not in main_nodes or edge.get("primary"))):
             outgoing[source].add(target)
             incoming[target].add(source)
-    ranks = dict.fromkeys(view.nodes, 0)
+    ranks = {key: int(bool(inputs) and key not in inputs) for key in view.nodes}
     remaining = set(view.nodes)
     while remaining:
         ready = sorted(key for key in remaining if not incoming[key] & remaining)
@@ -181,50 +188,72 @@ def rank_nodes(view):
             remaining.remove(key)
             for target in outgoing[key] & remaining:
                 ranks[target] = max(ranks[target], ranks[key] + 1)
+    if outputs:
+        last = max((rank for key, rank in ranks.items() if key not in outputs), default=-1) + 1
+        ranks.update(dict.fromkeys(outputs, last))
     return ranks
 
 
 def position(graph, view, top, column_gap, row_gap):
     ranks = rank_nodes(view)
     columns = {}
+    ordered_edges = sorted(view.edges, key=lambda item: not item[3].get("primary", False))
+    main_nodes = {key for _, source, target, edge in ordered_edges if edge.get("primary") for key in (source, target)}
     port_rows = {key: {"source": [], "target": []} for key in view.nodes}
-    for wire, source, target, edge in view.edges:
+    for wire, source, target, edge in ordered_edges:
         for key, side in ((source, "source"), (target, "target")):
             endpoint = edge[side]
             port = graph.ports[endpoint["block"]].get(endpoint.get("port"))
-            label = f"{wire} · {port['label'] if port else edge['label']}"
-            port_rows[key][side].append((wire, label))
+            primary = edge.get("primary", False)
+            label = edge["label"] if primary or not port else port["label"]
+            port_rows[key][side].append((wire, f"{wire} · {label}", primary))
 
     sizes = {}
     for key, block in view.nodes.items():
         columns.setdefault(ranks[key], []).append(key)
         label = list(wrap(block["label"], WIDTH - 28, 16))
         kind = block["kind"] + " · " + block["status"]
-        if key[0] != "block":
+        boundary = boundary_role(key, block)
+        if boundary:
+            kind = f"{boundary.title()} boundary · " + kind
+        elif key[0] != "block":
             kind = ("Scope port · " if key[0] == "boundary" else "External · ") + kind
         elif graph.children[key[1]]:
             kind += " · detail"
         subtitle = list(wrap(kind, WIDTH - 28, 12))
+        if boundary == "output":
+            subtitle.extend(wrap(f"View · {view.scope}", WIDTH - 28, 12))
         port_top = 17 + LEADING * (len(label) + len(subtitle))
         rows = max(len(values) for values in port_rows[key].values())
         sizes[key] = label, subtitle, port_top, port_top + rows * PORT_PITCH + 10
 
     row_heights = {}
+    rows_by_node = {}
+    primary_port_tops = {}
     for keys in columns.values():
-        keys.sort()
-        for row, key in enumerate(keys):
-            row_heights[row] = max(row_heights.get(row, 0), sizes[key][3])
+        keys.sort(key=lambda key: (key not in main_nodes, key))
+        first_row = int(bool(main_nodes) and keys[0] not in main_nodes)
+        for row, key in enumerate(keys, first_row):
+            rows_by_node[key] = row
+            if key in main_nodes:
+                primary_port_tops[row] = max(primary_port_tops.get(row, 0), sizes[key][2])
+    for key, row in rows_by_node.items():
+        if key in main_nodes:
+            label, subtitle, port_top, height = sizes[key]
+            aligned_top = primary_port_tops[row]
+            sizes[key] = label, subtitle, aligned_top, height + aligned_top - port_top
+        row_heights[row] = max(row_heights.get(row, 0), sizes[key][3])
     row_tops = []
     cursor = top
-    for height in row_heights.values():
+    for row in sorted(row_heights):
         row_tops.append(cursor)
-        cursor += height + row_gap
+        cursor += row_heights[row] + row_gap
 
     nodes = {}
     for column, keys in sorted(columns.items()):
-        for row, key in enumerate(keys):
+        for key in keys:
             x = MARGIN + 76 + column * (WIDTH + column_gap)
-            y = row_tops[row]
+            y = row_tops[rows_by_node[key]]
             label, subtitle, port_top, height = sizes[key]
             text = []
             baseline = y + 25
@@ -234,11 +263,12 @@ def position(graph, view, top, column_gap, row_gap):
                     baseline += LEADING
             anchors = {}
             for side, dx in (("target", 0), ("source", WIDTH)):
-                for index, (wire, value) in enumerate(port_rows[key][side]):
+                for index, (wire, value, primary) in enumerate(port_rows[key][side]):
                     port_y = y + port_top + 12 + index * PORT_PITCH
                     anchors[wire, side] = (x + dx, port_y)
                     text_x = x + (14 if side == "target" else WIDTH // 2 + 5)
-                    text.append(Text(text_x, port_y + 4, short(value, WIDTH // 2 - 20, 12), 12, "port"))
+                    text.append(Text(text_x, port_y + 4, short(value, WIDTH // 2 - 20, 12), 12,
+                                     "port primary" if primary else "port"))
             nodes[key] = Node(key, Box(x, y, x + WIDTH, y + height), tuple(text), anchors)
     lanes = [top - 20, top - 34]
     for index, y in enumerate(row_tops):
@@ -275,19 +305,23 @@ def find_route(a, b, direction, nodes, start, end, prior, lanes, column_gap):
 
 def place(graph, view, top):
     best = None
+    best_score = (-1, -1)
+    ordered_edges = sorted(view.edges, key=lambda item: not item[3].get("primary", False))
     for column_gap, row_gap in ((104, 56), (180, 86)):
         nodes, lanes = position(graph, view, top, column_gap, row_gap)
         wires = {}
         occupied = []
-        for wire, source, target, edge in view.edges:
+        for wire, source, target, edge in ordered_edges:
             a = nodes[source].anchors[wire, "source"]
             b = nodes[target].anchors[wire, "target"]
             route = find_route(a, b, edge["direction"], nodes, source, target, occupied, lanes, column_gap)
             if route:
                 wires[wire] = route
                 occupied.extend(route.shapes)
-        if best is None or len(wires) > len(best[1]):
+        score = (sum(wire in wires for wire, _, _, edge in ordered_edges if edge.get("primary")), len(wires))
+        if score > best_score:
             best = nodes, wires
+            best_score = score
         if len(wires) == len(view.edges):
             break
     return best
