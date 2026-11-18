@@ -10,6 +10,12 @@ Turn project files and design ideas into clear SVG architecture diagrams.
 
 Analyze a project or a set of files and create a verified `overview.svg` with detail diagrams for expanded groups. The `architecture-svg` entry skill chooses among software, RTL, board electronics, infrastructure, interface contracts, data workflows, AI systems, and design documents. Each of the eight specialists also works as a direct entry point.
 
+## Latest update — November 18, 2026
+
+- **Output boundaries** show the result, its destination or delivery surface, and the system or layer being drawn. This applies across the shared architecture workflow, including frontend, backend, tools and RTL.
+- **Primary data flow** uses bold labels and thicker arrows from input through processing to output. Supporting paths remain visible, and main-path ports align across blocks where possible.
+- **Frontend and backend examples** cover JSON-to-browser rendering and request-to-HTTP-response flow. Their reproducible graph inputs are in [frontend.json](examples/graphs/frontend.json) and [backend.json](examples/graphs/backend.json).
+
 ## Use in Codex and Claude Code
 
 Clone this repository and run `python install_skills.py` from the checkout with Python 3.10 or newer. Setup runs directly from the checkout and requires no `pip install`.
